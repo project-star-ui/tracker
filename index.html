@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BudgetTok - Personal Finance Tracker</title>
+    <title>Spendo - Personal Finance Tracker</title>
     <meta name="theme-color" content="#000000">
-    <meta name="description" content="Track your income and expenses with BudgetTok">
+    <meta name="description" content="Track your income and expenses with Spendo">
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -43,12 +43,16 @@
             min-height: 100vh;
             padding: 0;
             overflow-x: hidden;
+            display: flex; /* Added for centering content */
+            justify-content: center; /* Added for centering content */
+            align-items: flex-start; /* Align content to the top */
         }
         
         .container {
             max-width: 100%;
             margin: 0 auto;
             padding: 15px;
+            width: 100%; /* Ensure container takes full width on small screens */
         }
         
         /* TikTok-style gradient text */
@@ -57,6 +61,11 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            /* Added emphasis */
+            font-size: 2.2em; /* Make it larger */
+            font-weight: 900; /* Make it bolder */
+            letter-spacing: 1px; /* Add some spacing */
+            text-shadow: 0 0 8px rgba(254, 44, 85, 0.5), 0 0 8px rgba(37, 244, 238, 0.5); /* Subtle glow */
         }
         
         /* Header with TikTok-inspired design */
@@ -72,7 +81,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 24px;
+            font-size: 24px; /* Base font size for logo text */
             font-weight: 700;
         }
         
@@ -92,6 +101,7 @@
             flex-direction: column;
             gap: 12px;
             margin-bottom: 25px;
+            align-items: stretch; /* Ensure cards stretch to fill width */
         }
         
         .card {
@@ -101,6 +111,8 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
+            flex: 1; /* Allow cards to grow and shrink */
+            min-width: 280px; /* Minimum width for cards before wrapping */
         }
         
         .card::before {
@@ -474,11 +486,14 @@
             
             .summary-cards {
                 flex-direction: row;
+                flex-wrap: wrap; /* Allow cards to wrap */
+                justify-content: center; /* Center cards when they wrap */
                 gap: 15px;
             }
             
             .card {
                 flex: 1;
+                min-width: unset; /* Reset min-width for larger screens */
             }
             
             .card-content {
@@ -802,7 +817,7 @@
                             <div className="logo-icon">
                                 <i className="fas fa-coins"></i>
                             </div>
-                            <span className="gradient-text">BudgetTok</span>
+                            <span className="gradient-text">Spendo</span>
                         </div>
                         {installPrompt && (
                             <button className="install-btn" onClick={handleInstallClick}>
@@ -1003,7 +1018,7 @@
                     </div>
                     
                     <footer>
-                        <p>BudgetTok &copy; {new Date().getFullYear()} - Your Personal Finance Companion</p>
+                        <p>Spendo &copy; {new Date().getFullYear()} - Your Personal Finance Companion</p>
                     </footer>
                 </div>
             );

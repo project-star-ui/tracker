@@ -24,12 +24,13 @@
             --bg-secondary: #121212;
             --bg-card: #1e1e1e;
             --bg-input: #2a2a2a;
-            --accent-primary: #fe2c55;
-            --accent-secondary: #25f4ee;
+            --accent-primary: #ff2a6d;
+            --accent-secondary: #05d9e8;
+            --accent-tertiary: #b140ff;
             --text-primary: #ffffff;
             --text-secondary: #a0a0a0;
-            --income-color: #25f4ee;
-            --expense-color: #fe2c55;
+            --income-color: #05d9e8;
+            --expense-color: #ff2a6d;
             --success: #00d95f;
             --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             --transition: all 0.3s ease;
@@ -43,56 +44,84 @@
             min-height: 100vh;
             padding: 0;
             overflow-x: hidden;
-            display: flex; /* Added for centering content */
-            justify-content: center; /* Added for centering content */
-            align-items: flex-start; /* Align content to the top */
         }
         
         .container {
             max-width: 100%;
             margin: 0 auto;
             padding: 15px;
-            width: 100%; /* Ensure container takes full width on small screens */
         }
         
-        /* TikTok-style gradient text */
-        .gradient-text {
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        /* Spendo branding with eye-catching gradient */
+        .spendo-brand {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            /* Added emphasis */
-            font-size: 2.2em; /* Make it larger */
-            font-weight: 900; /* Make it bolder */
-            letter-spacing: 1px; /* Add some spacing */
-            text-shadow: 0 0 8px rgba(254, 44, 85, 0.5), 0 0 8px rgba(37, 244, 238, 0.5); /* Subtle glow */
+            font-weight: 800;
+            font-size: 32px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 20px rgba(255, 42, 109, 0.3);
+            position: relative;
+            display: inline-block;
         }
         
-        /* Header with TikTok-inspired design */
+        .spendo-brand::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            border-radius: 3px;
+        }
+        
+        /* Header with Spendo branding */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding: 15px 0;
+            margin-bottom: 25px;
+            padding: 20px 0;
+            position: relative;
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 24px; /* Base font size for logo text */
-            font-weight: 700;
+            gap: 12px;
         }
         
         .logo-icon {
-            width: 36px;
-            height: 36px;
+            width: 45px;
+            height: 45px;
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 15px rgba(255, 42, 109, 0.4);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .logo-icon i {
+            font-size: 22px;
+            color: white;
+        }
+        
+        .tagline {
+            font-size: 14px;
+            color: var(--accent-secondary);
+            margin-top: 5px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
         
         /* Improved Summary Cards for Mobile */
@@ -101,7 +130,6 @@
             flex-direction: column;
             gap: 12px;
             margin-bottom: 25px;
-            align-items: stretch; /* Ensure cards stretch to fill width */
         }
         
         .card {
@@ -111,8 +139,6 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            flex: 1; /* Allow cards to grow and shrink */
-            min-width: 280px; /* Minimum width for cards before wrapping */
         }
         
         .card::before {
@@ -160,17 +186,17 @@
         }
         
         .income .card-icon {
-            background: rgba(37, 244, 238, 0.15);
+            background: rgba(5, 217, 232, 0.15);
             color: var(--income-color);
         }
         
         .expenses .card-icon {
-            background: rgba(254, 44, 85, 0.15);
+            background: rgba(255, 42, 109, 0.15);
             color: var(--expense-color);
         }
         
         .balance .card-icon {
-            background: linear-gradient(135deg, rgba(254, 44, 85, 0.15), rgba(37, 244, 238, 0.15));
+            background: linear-gradient(135deg, rgba(255, 42, 109, 0.15), rgba(5, 217, 232, 0.15));
             color: var(--accent-primary);
         }
         
@@ -306,10 +332,10 @@
         input:focus, select:focus {
             outline: none;
             border-color: var(--accent-primary);
-            box-shadow: 0 0 0 2px rgba(254, 44, 85, 0.2);
+            box-shadow: 0 0 0 2px rgba(255, 42, 109, 0.2);
         }
         
-        /* TikTok-style button */
+        /* Spendo-style button */
         button {
             background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
             color: white;
@@ -387,7 +413,7 @@
             color: var(--expense-color);
         }
         
-        /* Delete button with TikTok style */
+        /* Delete button with Spendo style */
         .delete-btn {
             background: none;
             color: var(--text-secondary);
@@ -405,7 +431,7 @@
         }
         
         .delete-btn:active {
-            background: rgba(254, 44, 85, 0.1);
+            background: rgba(255, 42, 109, 0.1);
             color: var(--accent-primary);
             transform: scale(0.95);
         }
@@ -484,16 +510,22 @@
                 padding: 20px;
             }
             
+            .spendo-brand {
+                font-size: 36px;
+            }
+            
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+            }
+            
             .summary-cards {
                 flex-direction: row;
-                flex-wrap: wrap; /* Allow cards to wrap */
-                justify-content: center; /* Center cards when they wrap */
                 gap: 15px;
             }
             
             .card {
                 flex: 1;
-                min-width: unset; /* Reset min-width for larger screens */
             }
             
             .card-content {
@@ -532,6 +564,10 @@
                 max-width: 1000px;
             }
             
+            .spendo-brand {
+                font-size: 40px;
+            }
+            
             .chart-container {
                 height: 300px;
             }
@@ -562,8 +598,8 @@
             return ((current - previous) / previous) * 100;
         }
 
-        // Main BudgetTracker component
-        function BudgetTracker() {
+        // Main Spendo component
+        function Spendo() {
             const [transactions, setTransactions] = useState([]);
             const [filter, setFilter] = useState('all');
             const [installPrompt, setInstallPrompt] = useState(null);
@@ -611,7 +647,7 @@
 
             // Load transactions from localStorage on component mount
             useEffect(() => {
-                const savedTransactions = localStorage.getItem('budgetTransactions');
+                const savedTransactions = localStorage.getItem('spendoTransactions');
                 if (savedTransactions) {
                     setTransactions(JSON.parse(savedTransactions));
                 }
@@ -619,7 +655,7 @@
 
             // Save transactions to localStorage whenever they change
             useEffect(() => {
-                localStorage.setItem('budgetTransactions', JSON.stringify(transactions));
+                localStorage.setItem('spendoTransactions', JSON.stringify(transactions));
             }, [transactions]);
 
             // Calculate summary values
@@ -719,15 +755,15 @@
                                 {
                                     label: 'Income',
                                     data: incomeData,
-                                    backgroundColor: 'rgba(37, 244, 238, 0.7)',
-                                    borderColor: 'rgba(37, 244, 238, 1)',
+                                    backgroundColor: 'rgba(5, 217, 232, 0.7)',
+                                    borderColor: 'rgba(5, 217, 232, 1)',
                                     borderWidth: 1
                                 },
                                 {
                                     label: 'Expenses',
                                     data: expensesData,
-                                    backgroundColor: 'rgba(254, 44, 85, 0.7)',
-                                    borderColor: 'rgba(254, 44, 85, 1)',
+                                    backgroundColor: 'rgba(255, 42, 109, 0.7)',
+                                    borderColor: 'rgba(255, 42, 109, 1)',
                                     borderWidth: 1
                                 }
                             ]
@@ -815,9 +851,12 @@
                     <header>
                         <div className="logo">
                             <div className="logo-icon">
-                                <i className="fas fa-coins"></i>
+                                <i className="fas fa-money-bill-wave"></i>
                             </div>
-                            <span className="gradient-text">Spendo</span>
+                            <div>
+                                <div className="spendo-brand">Spendo</div>
+                                <div className="tagline">Smart Spending, Better Living</div>
+                            </div>
                         </div>
                         {installPrompt && (
                             <button className="install-btn" onClick={handleInstallClick}>
@@ -827,7 +866,7 @@
                         )}
                     </header>
                     
-                    {/* Improved Summary Cards for Mobile */}
+                    {/* Summary Cards */}
                     <div className="summary-cards">
                         <div className="card income">
                             <div className="card-content">
@@ -1018,14 +1057,14 @@
                     </div>
                     
                     <footer>
-                        <p>Spendo &copy; {new Date().getFullYear()} - Your Personal Finance Companion</p>
+                        <p>Spendo &copy; {new Date().getFullYear()} - Smart Spending, Better Living</p>
                     </footer>
                 </div>
             );
         }
 
         // Render the app
-        ReactDOM.render(<BudgetTracker />, document.getElementById('root'));
+        ReactDOM.render(<Spendo />, document.getElementById('root'));
     </script>
 </body>
 </html>

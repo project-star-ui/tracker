@@ -2,7 +2,8 @@
   "name": "Spendo - Personal Finance Tracker",
   "short_name": "Spendo",
   "description": "Track your income and expenses with Spendo, a smart personal finance tracker.",
-  "start_url": "./index.html",
+  "start_url": "/tracker/",
+  "scope": "/tracker/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
@@ -31,4 +32,5 @@
     }
   ]
 }
+
 

@@ -1119,9 +1119,9 @@
     <!-- Service Worker Registration -->
     <script>
          if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js')
-                      .then((reg) => console.log('SW registered:', reg))
-                      .catch((err) => console.error('SW registration failed:', err));
+                navigator.serviceWorker.register('/tracker/sw.js')
+                      .then((reg) => console.log('Service worker registered:', reg))
+                      .catch((err) => console.error('Service worker error:', err));
             // The closing curly brace and parenthesis for the .then and .catch were missing.
             // Also, the outer `});` was misplaced. Corrected below.
          }

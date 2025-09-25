@@ -589,6 +589,42 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
+        // PWA installation handling (moved outside React component)
+        let deferredPrompt;
+
+        // Detect if PWA is already installed
+        function isPWAInstalled() {
+          return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        }
+
+        // Listen for install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault(); // stop default mini-infobar
+          deferredPrompt = e;
+          // The React component will pick this up via its useEffect
+        });
+
+        // Optional: detect when PWA gets installed
+        window.addEventListener('appinstalled', () => {
+          console.log('📲 App installed successfully!');
+          // The React component will pick this up via its useEffect
+        });
+
+        function showInstallPrompt() {
+          if (deferredPrompt) {
+            deferredPrompt.prompt(); // show the install dialog
+
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('✅ User accepted the install');
+              } else {
+                console.log('❌ User dismissed the install');
+              }
+              deferredPrompt = null; // reset for next visit
+            });
+          }
+        }
+
         // PHP-style currency formatting function
         function formatCurrency(amount) {
             return new Intl.NumberFormat('en-PH', {
@@ -607,7 +643,7 @@
         function Spendo() {
             const [transactions, setTransactions] = useState([]);
             const [filter, setFilter] = useState('all');
-            const [installPrompt, setInstallPrompt] = useState(null);
+            const [installPrompt, setInstallPrompt] = useState(null); // This state will now reflect the global deferredPrompt
             
             // Form state
             const [description, setDescription] = useState('');
@@ -620,33 +656,41 @@
             const chartRef = useRef(null);
             const chartInstance = useRef(null);
 
-            // PWA installation handling
+            // Effect to update installPrompt state when global deferredPrompt changes
             useEffect(() => {
-                // Listen for beforeinstallprompt event
-                window.addEventListener('beforeinstallprompt', (e) => {
-                    e.preventDefault();
-                    setInstallPrompt(e);
-                });
+                const handleBeforeInstallPrompt = (e) => {
+                    // This listener is already outside, but we need to update the state
+                    // when deferredPrompt is set globally.
+                    // We can also directly check deferredPrompt here.
+                    if (deferredPrompt && !isPWAInstalled()) {
+                        setInstallPrompt(deferredPrompt);
+                    }
+                };
 
-                // Check if app is already installed
-                window.addEventListener('appinstalled', () => {
-                    setInstallPrompt(null);
-                });
+                const handleAppInstalled = () => {
+                    setInstallPrompt(null); // Hide install button if app is installed
+                };
+
+                // Initial check
+                if (deferredPrompt && !isPWAInstalled()) {
+                    setInstallPrompt(deferredPrompt);
+                }
+
+                window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+                window.addEventListener('appinstalled', handleAppInstalled);
+
+                return () => {
+                    window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+                    window.removeEventListener('appinstalled', handleAppInstalled);
+                };
             }, []);
+
 
             // Handle install button click
             const handleInstallClick = () => {
                 if (installPrompt) {
-                    installPrompt.prompt();
-                    
-                    installPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('User accepted the install prompt');
-                        } else {
-                            console.log('User dismissed the install prompt');
-                        }
-                        setInstallPrompt(null);
-                    });
+                    showInstallPrompt(); // Call the global function
+                    setInstallPrompt(null); // Hide the button after prompt is shown
                 }
             };
 
@@ -1078,9 +1122,9 @@
                 navigator.serviceWorker.register('/sw.js')
                       .then((reg) => console.log('SW registered:', reg))
                       .catch((err) => console.error('SW registration failed:', err));
-                    });
-            });
-        }
+            // The closing curly brace and parenthesis for the .then and .catch were missing.
+            // Also, the outer `});` was misplaced. Corrected below.
+         }
     </script>
 </body>
 </html>

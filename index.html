@@ -86,45 +86,21 @@
             justify-content: center;
         }
         
-        /* Summary Cards with TikTok aesthetic - Mobile first */
+        /* Improved Summary Cards for Mobile */
         .summary-cards {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 25px;
-        }
-        
-        .cards-row {
-            display: flex;
-            gap: 15px;
-            justify-content: space-between;
-        }
-        
-        .cards-row.top {
-            order: 1;
-        }
-        
-        .cards-row.bottom {
-            order: 3;
-            justify-content: center;
         }
         
         .card {
             background: var(--bg-card);
-            padding: 20px 15px;
             border-radius: var(--border-radius);
-            text-align: center;
             box-shadow: var(--card-shadow);
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            flex: 1;
-        }
-        
-        .card.balance {
-            flex: 0 0 auto;
-            width: 100%;
-            max-width: 300px;
         }
         
         .card::before {
@@ -134,7 +110,6 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
         }
         
         .card.income::before {
@@ -149,34 +124,91 @@
             background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
         }
         
-        .card h3 {
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: var(--text-secondary);
+        .card-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+        }
+        
+        .card-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            font-size: 18px;
         }
         
-        .card .amount {
+        .income .card-icon {
+            background: rgba(37, 244, 238, 0.15);
+            color: var(--income-color);
+        }
+        
+        .expenses .card-icon {
+            background: rgba(254, 44, 85, 0.15);
+            color: var(--expense-color);
+        }
+        
+        .balance .card-icon {
+            background: linear-gradient(135deg, rgba(254, 44, 85, 0.15), rgba(37, 244, 238, 0.15));
+            color: var(--accent-primary);
+        }
+        
+        .card-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .card-amount {
             font-size: 18px;
             font-weight: bold;
         }
         
-        .card.income .amount {
+        .income .card-amount {
             color: var(--income-color);
         }
         
-        .card.expenses .amount {
+        .expenses .card-amount {
             color: var(--expense-color);
         }
         
-        .card.balance .amount {
+        .balance .card-amount {
             background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+        
+        .card-trend {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .positive {
+            color: var(--income-color);
+        }
+        
+        .negative {
+            color: var(--expense-color);
         }
         
         /* Chart container */
@@ -442,35 +474,33 @@
             
             .summary-cards {
                 flex-direction: row;
-                gap: 20px;
-            }
-            
-            .cards-row {
-                flex-direction: column;
-                flex: 1;
-                gap: 20px;
-            }
-            
-            .cards-row.top {
-                order: 1;
-            }
-            
-            .cards-row.bottom {
-                order: 2;
-                justify-content: flex-start;
-            }
-            
-            .card.balance {
-                width: 100%;
-                max-width: none;
+                gap: 15px;
             }
             
             .card {
-                padding: 25px 20px;
+                flex: 1;
             }
             
-            .card .amount {
-                font-size: 22px;
+            .card-content {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 15px;
+            }
+            
+            .card-info {
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .card-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .card-amount {
+                font-size: 20px;
             }
             
             .main-content {
@@ -485,34 +515,6 @@
         @media (min-width: 1024px) {
             .container {
                 max-width: 1000px;
-            }
-            
-            .summary-cards {
-                flex-direction: row;
-                justify-content: space-between;
-            }
-            
-            .cards-row {
-                flex-direction: row;
-                flex: 1;
-                justify-content: space-between;
-            }
-            
-            .cards-row.top {
-                order: 1;
-                flex: 0 0 30%;
-            }
-            
-            .cards-row.bottom {
-                order: 2;
-                flex: 0 0 30%;
-                justify-content: space-between;
-            }
-            
-            .card.balance {
-                order: 2;
-                flex: 0 0 30%;
-                margin: 0 20px;
             }
             
             .chart-container {
@@ -537,6 +539,12 @@
                 style: 'currency',
                 currency: 'PHP'
             }).format(amount);
+        }
+
+        // Calculate percentage change
+        function calculatePercentageChange(current, previous) {
+            if (previous === 0) return 0;
+            return ((current - previous) / previous) * 100;
         }
 
         // Main BudgetTracker component
@@ -609,6 +617,41 @@
                 .reduce((sum, t) => sum + parseFloat(t.amount), 0);
                 
             const balance = income - expenses;
+
+            // Calculate previous period values for trend indicators
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
+            
+            const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+            const previousYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+            
+            const currentMonthIncome = transactions
+                .filter(t => t.type === 'income' && 
+                    new Date(t.date).getMonth() === currentMonth && 
+                    new Date(t.date).getFullYear() === currentYear)
+                .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+                
+            const previousMonthIncome = transactions
+                .filter(t => t.type === 'income' && 
+                    new Date(t.date).getMonth() === previousMonth && 
+                    new Date(t.date).getFullYear() === previousYear)
+                .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+                
+            const currentMonthExpenses = transactions
+                .filter(t => t.type === 'expense' && 
+                    new Date(t.date).getMonth() === currentMonth && 
+                    new Date(t.date).getFullYear() === currentYear)
+                .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+                
+            const previousMonthExpenses = transactions
+                .filter(t => t.type === 'expense' && 
+                    new Date(t.date).getMonth() === previousMonth && 
+                    new Date(t.date).getFullYear() === previousYear)
+                .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+
+            const incomeTrend = calculatePercentageChange(currentMonthIncome, previousMonthIncome);
+            const expensesTrend = calculatePercentageChange(currentMonthExpenses, previousMonthExpenses);
 
             // Prepare chart data
             useEffect(() => {
@@ -769,22 +812,60 @@
                         )}
                     </header>
                     
-                    {/* Summary Cards with centered balance on mobile */}
+                    {/* Improved Summary Cards for Mobile */}
                     <div className="summary-cards">
-                        <div className="cards-row top">
-                            <div className="card income">
-                                <h3><i className="fas fa-arrow-up"></i> Income</h3>
-                                <div className="amount">{formatCurrency(income)}</div>
+                        <div className="card income">
+                            <div className="card-content">
+                                <div className="card-info">
+                                    <div className="card-icon">
+                                        <i className="fas fa-arrow-up"></i>
+                                    </div>
+                                    <div className="card-text">
+                                        <div className="card-label">Income</div>
+                                        <div className="card-amount">{formatCurrency(income)}</div>
+                                    </div>
+                                </div>
+                                <div className={`card-trend ${incomeTrend >= 0 ? 'positive' : 'negative'}`}>
+                                    <i className={`fas ${incomeTrend >= 0 ? 'fa-arrow-up' : 'fa-arrow-down'}`}></i>
+                                    {Math.abs(incomeTrend).toFixed(1)}%
+                                </div>
                             </div>
-                            <div className="card expenses">
-                                <h3><i className="fas fa-arrow-down"></i> Expenses</h3>
-                                <div className="amount">{formatCurrency(expenses)}</div>
+                        </div>
+                        
+                        <div className="card expenses">
+                            <div className="card-content">
+                                <div className="card-info">
+                                    <div className="card-icon">
+                                        <i className="fas fa-arrow-down"></i>
+                                    </div>
+                                    <div className="card-text">
+                                        <div className="card-label">Expenses</div>
+                                        <div className="card-amount">{formatCurrency(expenses)}</div>
+                                    </div>
+                                </div>
+                                <div className={`card-trend ${expensesTrend <= 0 ? 'positive' : 'negative'}`}>
+                                    <i className={`fas ${expensesTrend <= 0 ? 'fa-arrow-down' : 'fa-arrow-up'}`}></i>
+                                    {Math.abs(expensesTrend).toFixed(1)}%
+                                </div>
                             </div>
                         </div>
                         
                         <div className="card balance">
-                            <h3><i className="fas fa-balance-scale"></i> Balance</h3>
-                            <div className="amount">{formatCurrency(balance)}</div>
+                            <div className="card-content">
+                                <div className="card-info">
+                                    <div className="card-icon">
+                                        <i className="fas fa-balance-scale"></i>
+                                    </div>
+                                    <div className="card-text">
+                                        <div className="card-label">Balance</div>
+                                        <div className="card-amount">{formatCurrency(balance)}</div>
+                                    </div>
+                                </div>
+                                <div className="card-trend">
+                                    <i className={`fas ${balance >= 0 ? 'fa-smile positive' : 'fa-frown negative'}`}></i>
+                                    {balance >= 0 ? 'Good' : 'Review'}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
